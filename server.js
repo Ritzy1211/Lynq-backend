@@ -20,11 +20,26 @@ mongoose
 // POST /apply route
 app.post("/apply", async (req, res) => {
   try {
-    const newHost = new HostApplication(req.body);
-    await newHost.save();
-    res.status(201).json({ message: "Application submitted successfully." });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to submit application." });
+    const { fullname, email, bio, social, category } = req.body;
+
+    // Optional: validate required fields
+    if (!fullname || !email || !bio || !social || !category) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const newApplicant = new Applicant({
+      fullname,
+      email,
+      bio,
+      social,
+      category,
+    });
+    await newApplicant.save();
+
+    res.status(200).json({ message: "Application submitted successfully" });
+  } catch (error) {
+    console.error("Error submitting application:", error.message);
+    res.status(500).json({ message: "Failed to submit application" });
   }
 });
 
