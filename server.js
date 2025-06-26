@@ -15,7 +15,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
+  .catch((err) => console.log ("MongoDB connectiion Error:", err));
 
 // POST /apply route
 app.post("/apply", async (req, res) => {
