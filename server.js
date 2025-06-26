@@ -27,7 +27,7 @@ app.post("/apply", async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const newApplicant = new Applicant({
+    const newApplicant = new HostApplicantion({
       fullname,
       email,
       bio,
