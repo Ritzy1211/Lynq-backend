@@ -43,5 +43,16 @@ app.post("/apply", async (req, res) => {
   }
 });
 
+// GET /applications route — get all host applications
+app.get("/applications", async (req, res) => {
+  try {
+    const applications = await HostApplication.find().sort({ createdAt: -1 });
+    res.status(200).json(applications);
+  } catch (error) {
+    console.error("Error fetching applications:", error.message);
+    res.status(500).json({ message: "Failed to fetch applications" });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

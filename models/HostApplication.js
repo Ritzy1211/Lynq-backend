@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
-const HostApplicationSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  social: String,
-  country: String,
-  createdAt: {
-    type: Date,
-    default: Date.now,
+const hostApplicationSchema = new mongoose.Schema(
+  {
+    fullname: String,
+    email: String,
+    bio: String,
+    social: String,
+    category: String,
   },
-});
+  { timestamps: true } 
+);
 
-module.exports = mongoose.model("HostApplication", HostApplicationSchema);
+module.exports = mongoose.model("HostApplication", hostApplicationSchema);
