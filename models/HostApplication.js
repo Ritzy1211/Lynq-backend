@@ -7,6 +7,11 @@ const hostApplicationSchema = new mongoose.Schema(
     bio: String,
     social: String,
     category: String,
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending"
+    }
   },
   { timestamps: true } 
 );

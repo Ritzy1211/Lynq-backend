@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lynq Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-900 text-white p-6">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-3xl font-bold mb-6 text-center">
+        🎛 Lynq Admin Dashboard
+      </h1>
+
+      <!-- Token Input -->
+      <div class="mb-6 flex items-center space-x-4">
+        <input
+          type="password"
+          id="adminToken"
+          placeholder="Enter Admin Token"
+          autofocus
+          class="w-full max-w-xs p-2 rounded bg-gray-800 border border-gray-600 text-white"
+        />
+        <button
+          type="button"
+          onclick="loadApplicants()"
+          class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded text-white"
+        >
+          Fetch Applications
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full border border-white text-sm text-left">
+          <thead class="bg-purple-800">
+            <tr>
+              <th class="p-2 border">Full Name</th>
+              <th class="p-2 border">Email</th>
+              <th class="p-2 border">Bio</th>
+              <th class="p-2 border">Social</th>
+              <th class="p-2 border">Category</th>
+              <th class="p-2 border">Status</th>
+              <th class="p-2 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="applicantsTable" class="bg-gray-800">
+            <!-- Rows will be injected here by admin.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Status or Debug Info -->
+      <div id="statusMsg" class="mt-4 text-sm text-center text-red-400"></div>
+
+      <!-- Footer -->
+      <footer class="mt-10 text-center text-sm text-gray-400">
+        ©️ 2025 Lynq Admin Panel. All rights reserved.
+      </footer>
+    </div>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
