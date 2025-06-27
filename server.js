@@ -3,6 +3,16 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+// Admin token middleware
+const adminAuth = (req, res, next) => {
+  const token = req.headers['authorization']; // sent as "Authorization" header
+  if (token === process.env.ADMIN_TOKEN) {
+    next(); // ✅ authorized
+  } else {
+    return res.status(401).json({ message: "Unauthorized: Invalid token" });
+  }
+};
+
 const HostApplication = require("./models/HostApplication");
 
 const app = express();
@@ -44,7 +54,7 @@ app.post("/apply", async (req, res) => {
 });
 
 // GET /applications route — get all host applications
-app.get("/applications", async (req, res) => {
+app.get("/applications", adminAuth, async (req, res) => {
   try {
     const applications = await HostApplication.find().sort({ createdAt: -1 });
     res.status(200).json(applications);
