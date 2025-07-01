@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creator Profile | Lynq</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <!-- Header -->
+    <header class="bg-white shadow p-4">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-purple-700">Lynq</h1>
+        <a href="creators.html" class="text-sm text-purple-600 hover:underline"
+          >← Back to Creators</a
+        >
+      </div>
+    </header>
+
+    <!-- Profile -->
+    <main class="max-w-4xl mx-auto p-6 mt-6 bg-white rounded-lg shadow">
+      <div id="profileContent" class="space-y-4">
+        <h2 class="text-2xl font-semibold">Loading...</h2>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        const profileDiv = document.getElementById("profileContent");
+
+        if (!id) {
+          profileDiv.innerHTML =
+            "<p class='text-red-600'>Invalid profile ID</p>";
+          return;
+        }
+
+        try {
+          const res = await fetch(`/creator/${id}`);
+          if (!res.ok) throw new Error("Failed to fetch creator");
+
+          const creator = await res.json();
+
+          profileDiv.innerHTML = `
+          <h2 class="text-3xl font-bold text-purple-700">${creator.fullname}</h2>
+          <p><strong>Email:</strong> ${creator.email}</p>
+          <p><strong>Category:</strong> ${creator.category}</p>
+          <p><strong>Bio:</strong> ${creator.bio}</p>
+          <p><strong>Social Link:</strong> <a href="${creator.social}" target="_blank" class="text-blue-600 underline">${creator.social}</a></p>
+          <p class="text-sm text-green-700 font-medium">Status: ${creator.status}</p>
+        `;
+        } catch (err) {
+          console.error(err.message);
+          profileDiv.innerHTML =
+            "<p class='text-red-600'>Failed to load creator profile.</p>";
+        }
+      });
+    </script>
+  </body>
+</html>

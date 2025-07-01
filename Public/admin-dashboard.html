@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lynq Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-900 text-white p-6">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-bold text-center mb-6">
+        🎛 Lynq Admin Dashboard
+      </h1>
+
+      <div class="flex items-center gap-4 mb-4">
+        <button
+          id="fetchBtn"
+          class="bg-purple-600 px-4 py-2 rounded hover:bg-purple-700"
+        >
+          Refresh
+        </button>
+        <button
+          onclick="exportToCSV()"
+          class="bg-yellow-500 px-4 py-2 rounded hover:bg-yellow-600"
+        >
+          Export CSV
+        </button>
+        <button
+          id="logoutBtn"
+          class="bg-red-500 px-4 py-2 rounded hover:bg-red-600 ml-auto"
+        >
+          Logout
+        </button>
+      </div>
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search applicants..."
+        class="mb-4 w-full p-2 rounded text-black"
+      />
+      <div class="flex flex-wrap gap-2 mb-4">
+        <button onclick="filterByStatus('all')" class="bg-gray-700 px-3 py-1 rounded hover:bg-gray-600">All</button>
+        <button onclick="filterByStatus('pending')" class="bg-yellow-600 px-3 py-1 rounded hover:bg-yellow-500">Pending</button>
+        <button onclick="filterByStatus('approved')" class="bg-green-600 px-3 py-1 rounded hover:bg-green-500">Approved</button>
+        <button onclick="filterByStatus('rejected')" class="bg-red-600 px-3 py-1 rounded hover:bg-red-500">Rejected</button>
+      </div>
+      <table class="w-full table-auto border border-white text-sm">
+        <thead class="bg-purple-800">
+          <tr>
+            <th class="p-2 border">Full Name</th>
+            <th class="p-2 border">Email</th>
+            <th class="p-2 border">Bio</th>
+            <th class="p-2 border">Social</th>
+            <th class="p-2 border">Category</th>
+            <th class="p-2 border">Status</th>
+            <th class="p-2 border">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="applicantsTable" class="bg-gray-800"></tbody>
+      </table>
+
+      <div class="flex justify-between mt-4">
+        <button
+          id="prevBtn"
+          onclick="prevPage()"
+          class="px-4 py-2 bg-gray-700 rounded"
+        >
+          Previous
+        </button>
+        <span id="pageIndicator" class="text-sm text-gray-400"></span>
+        <button
+          id="nextBtn"
+          onclick="nextPage()"
+          class="px-4 py-2 bg-gray-700 rounded"
+        >
+          Next
+        </button>
+      </div>
+
+      <div id="statusMsg" class="text-center text-red-400 mt-4"></div>
+    </div>
+
+    <script src="admin.js"></script>
+  </body>
+</html>

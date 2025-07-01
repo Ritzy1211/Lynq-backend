@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Submitted – Lynq</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+<body class="bg-gray-100 flex flex-col justify-center items-center min-h-screen px-4 text-center">
+
+  <!-- Lottie animation -->
+  <lottie-player
+    src="https://assets10.lottiefiles.com/packages/lf20_mznpomni.json"
+    background="transparent"
+    speed="1"
+    style="width: 200px; height: 200px"
+    autoplay
+  ></lottie-player>
+
+  <h1 class="text-2xl font-bold text-green-600 mt-4">Application Submitted Successfully!</h1>
+  <p class="text-gray-600 mt-2">Thank you for applying to Lynq. We'll be in touch shortly via email.</p>
+
+  <!-- CTA Buttons -->
+  <div class="mt-6 flex flex-col sm:flex-row items-center gap-4">
+    <a href="/track.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded">
+      Track My Application
+    </a>
+    <a href="/apply.html" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded">
+      Invite Friends
+    </a>
+  </div>
+
+  <!-- Referral Section -->
+  <div id="referralBox" class="hidden mt-8 p-4 bg-white rounded shadow w-full sm:w-96 text-left">
+    <h2 class="text-lg font-semibold mb-2">🎁 Your Referral Code</h2>
+    <p><strong id="refCode" class="text-purple-600"></strong></p>
+    <p class="text-sm text-gray-500 mt-1">Share this link to invite friends:</p>
+    <p id="shareLink" class="text-sm text-green-600 mt-1 break-all"></p>
+    <button id="copyBtn" class="mt-3 bg-purple-600 hover:bg-purple-700 text-white px-4 py-1 rounded">
+      Copy Link
+    </button>
+  </div>
+
+  <!-- Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const refCode =
+        localStorage.getItem("referralCode") ||
+        Math.random().toString(36).substring(2, 10);
+      localStorage.setItem("referralCode", refCode);
+
+      const referral = `https://lynq.app/apply.html?ref=${refCode}`;
+
+      document.getElementById("refCode").textContent = refCode;
+      document.getElementById("shareLink").textContent = referral;
+      document.getElementById("referralBox").classList.remove("hidden");
+
+      document.getElementById("copyBtn").addEventListener("click", () => {
+        navigator.clipboard.writeText(referral).then(() => {
+          alert("Referral link copied!");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Approved Creators | Lynq</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 text-gray-800">
+    <!-- Header -->
+    <header class="bg-white shadow p-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-purple-700">Lynq Creators</h1>
+      <a href="index.html" class="text-sm text-purple-600 hover:underline"
+        >← Back to Home</a
+      >
+    </header>
+
+    <!-- Main -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <h2 class="text-2xl font-semibold mb-6 text-center">Approved Creators</h2>
+
+      <!-- Grid -->
+      <div
+        id="creatorGrid"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+      >
+        <!-- Creator cards will be inserted here -->
+      </div>
+
+      <!-- Status Message -->
+      <p id="statusMsg" class="text-center text-red-600 mt-6"></p>
+    </main>
+
+    <!-- Script -->
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const grid = document.getElementById("creatorGrid");
+        const statusMsg = document.getElementById("statusMsg");
+
+        try {
+          const res = await fetch("/creators");
+          if (!res.ok) throw new Error("Failed to fetch creators");
+
+          const data = await res.json();
+          if (!Array.isArray(data)) throw new Error("Invalid response format");
+
+          if (data.length === 0) {
+            statusMsg.textContent = "No approved creators yet.";
+            return;
+          }
+
+          data.forEach((creator) => {
+            const card = document.createElement("div");
+            card.className = "bg-white rounded-lg shadow-md p-4";
+
+            card.innerHTML = `
+            <a href="creator-profile.html?id=${creator._id}">
+              <h3 class="text-xl font-semibold text-gray-800">${
+                creator.fullname
+              }</h3>
+              <p class="text-gray-600">${creator.bio.slice(0, 100)}...</p>
+              <p class="text-sm text-purple-600 mt-2">View Profile →</p>
+            </a>
+          `;
+            grid.appendChild(card);
+          });
+        } catch (err) {
+          console.error("Fetch error:", err.message);
+          statusMsg.textContent = "Error loading creators.";
+        }
+      });
+    </script>
+  </body>
+</html>

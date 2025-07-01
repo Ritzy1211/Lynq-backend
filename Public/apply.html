@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apply as a Creator | Lynq</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center px-4">
+  <div class="w-full max-w-xl bg-gray-800 p-8 rounded shadow-lg">
+    <h1 class="text-3xl font-bold text-center mb-6">Join the Lynq Creator Program</h1>
+
+    <form id="applyForm" class="space-y-4">
+      <input type="text" id="fullname" name="fullname" placeholder="Full Name" class="w-full p-2 rounded bg-gray-700 text-white" required />
+      <input type="email" id="email" name="email" placeholder="Email Address" class="w-full p-2 rounded bg-gray-700 text-white" required />
+      <textarea id="bio" name="bio" placeholder="Short Bio" class="w-full p-2 rounded bg-gray-700 text-white" required></textarea>
+      <input type="text" id="social" name="social" placeholder="Social Media Handle" class="w-full p-2 rounded bg-gray-700 text-white" required />
+      <select id="category" name="category" class="w-full p-2 rounded bg-gray-700 text-white" required>
+        <option value="">Select Category</option>
+        <option value="Music">Music</option>
+        <option value="Fashion">Fashion</option>
+        <option value="Gaming">Gaming</option>
+        <option value="Fitness">Fitness</option>
+        <option value="Lifestyle">Lifestyle</option>
+      </select>
+
+      <!-- Hidden field for referral tracking -->
+      <input type="hidden" id="referredBy" name="referredBy" />
+
+      <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded">Submit Application</button>
+    </form>
+
+    <div id="statusMsg" class="text-center mt-4 text-sm text-red-400"></div>
+  </div>
+
+  <script>
+    // Set referredBy from URL (e.g., ?ref=abc123)
+    const urlParams = new URLSearchParams(window.location.search);
+    const refCode = urlParams.get("ref");
+    if (refCode) {
+      document.getElementById("referredBy").value = refCode;
+    }
+
+    // Submit form
+    document.getElementById("applyForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const statusMsg = document.getElementById("statusMsg");
+      statusMsg.textContent = "Submitting...";
+
+      const data = {
+        fullname: document.getElementById("fullname").value,
+        email: document.getElementById("email").value,
+        bio: document.getElementById("bio").value,
+        social: document.getElementById("social").value,
+        category: document.getElementById("category").value,
+        referredBy: document.getElementById("referredBy").value,
+      };
+
+      try {
+        const res = await fetch("/apply", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+          window.location.href = "/success.html";
+        } else {
+          statusMsg.textContent = result.message || "Something went wrong!";
+        }
+      } catch (err) {
+        console.error("Submission error:", err);
+        statusMsg.textContent = "Submission failed. Please try again.";
+      }
+    });
+  </script>
+</body>
+</html>

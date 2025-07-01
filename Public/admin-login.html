@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Login - Lynq</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-gray-950 text-white flex items-center justify-center min-h-screen"
+  >
+    <div class="bg-gray-800 p-6 rounded shadow-md w-full max-w-sm">
+      <h2 class="text-xl font-bold mb-4 text-center">🔐 Admin Login</h2>
+      <input
+        type="password"
+        id="adminToken"
+        placeholder="Enter admin token"
+        class="w-full p-2 rounded bg-gray-700 text-white mb-4"
+      />
+      <button
+        onclick="login()"
+        class="bg-purple-600 w-full p-2 rounded hover:bg-purple-700"
+      >
+        Login
+      </button>
+      <div id="loginError" class="text-red-400 text-sm mt-2 text-center"></div>
+    </div>
+
+    <script>
+      function login() {
+        const token = document.getElementById("adminToken").value.trim();
+        if (!token)
+          return (document.getElementById("loginError").textContent =
+            "Token is required");
+        localStorage.setItem("adminToken", token);
+        window.location.href = "/admin-dashboard";
+      }
+    </script>
+  </body>
+</html>

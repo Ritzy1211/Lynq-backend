@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lynq – Empowering the Next Generation of Creators</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-950 text-white font-sans">
+
+  <!-- Header -->
+  <header class="bg-gray-900 shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-purple-500">Lynq</h1>
+      <nav class="space-x-4 hidden md:flex">
+        <a href="/" class="hover:text-purple-400">Home</a>
+        <a href="/apply.html" class="hover:text-purple-400">Apply</a>
+        <a href="#waitlist" class="hover:text-purple-400">Waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="text-center py-20 px-6 bg-gradient-to-b from-gray-900 to-gray-950">
+    <h2 class="text-4xl font-extrabold mb-4 text-white leading-tight">
+      Welcome to <span class="text-purple-500">Lynq</span> —<br />
+      The Creator Platform of the Future
+    </h2>
+    <p class="text-lg text-gray-300 mb-8">
+      Join a vibrant community of streamers, hosts, and creative entrepreneurs earning and growing together.
+    </p>
+    <a
+      href="/apply.html"
+      class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full font-medium"
+    >
+      Apply as a Creator
+    </a>
+  </section>
+
+  <!-- Waitlist Section -->
+  <section id="waitlist" class="bg-gray-900 text-white py-16 px-6">
+    <div class="max-w-xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">Be the First to Join Lynq</h2>
+      <p class="mb-6 text-gray-300">Get exclusive updates, early access, and creator perks by joining our waitlist.</p>
+
+      <form id="waitlistForm" class="flex flex-col sm:flex-row gap-4 justify-center">
+        <input
+          type="email"
+          id="waitlistEmail"
+          placeholder="Enter your email"
+          required
+          class="w-full sm:w-auto flex-grow p-3 rounded bg-gray-800 border border-gray-700 text-white"
+        />
+        <button
+          type="submit"
+          class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded text-white"
+        >
+          Join Waitlist
+        </button>
+      </form>
+
+      <p id="waitlistStatus" class="mt-4 text-sm"></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-950 text-center text-sm text-gray-400 py-6">
+    ©️ 2025 Lynq. All rights reserved.
+  </footer>
+
+  <!-- Waitlist Script -->
+  <script>
+    document.getElementById("waitlistForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("waitlistEmail").value;
+      const status = document.getElementById("waitlistStatus");
+
+      try {
+        const res = await fetch("/waitlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed");
+
+        status.textContent = data.message;
+        status.style.color = "lightgreen";
+      } catch (err) {
+        status.textContent = err.message;
+        status.style.color = "salmon";
+      }
+    });
+  </script>
+</body>
+</html>
